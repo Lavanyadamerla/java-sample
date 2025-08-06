@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print build
-        # run: echo 'build'
-        run: exit 1
+        run: echo 'build'
+        # run: exit 1
   test:
     needs: build
     runs-on: windows-latest
