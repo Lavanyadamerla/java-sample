@@ -24,7 +24,7 @@ jobs:
         echo 'Event: ${{ github.event_name}}'
         echo 'Global Greeting: $GLOBAL_GREETING'
         echo 'Repo variable: ${{ vars.MY_REPO_VAR }}'
-        echo 'Secret key: ${{ secret.API_KEY }}'
+        echo 'Secret key: ${{ secrets.API_KEY }}'
 
     - name: Get Commit Message
       id: get_commit
