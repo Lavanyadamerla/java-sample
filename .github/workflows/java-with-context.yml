@@ -1,0 +1,59 @@
+name: Java with Context
+
+on:
+ push:
+   branches: [ main ]
+
+env:
+  GLOBAL_GREETING: "Hello from ENV"
+
+jobs:
+ show_context:
+   runs-on: ubuntu-latest
+   outputs:
+     commit_message: ${{ steps.get_commit.outputs.message }}
+   steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Print GitHub Contexts
+      run: |
+        echo 'Repository: ${{ github.repository }}'
+        echo 'Ref: ${{ github.ref }}'
+        echo 'Actor: ${{ github.actor }}'
+        echo 'Event: ${{ github.event_name}}'
+        echo 'Global Greeting: $GLOBAL_GREETING'
+        echo 'Repo variable: ${{ vars.MY_REPO_VAR }}'
+        echo 'Secret key: ${{ secret.API_KEY }}'
+
+    - name: Get Commit Message
+      id: get_commit
+      run: |
+        echo 'message=${{ github.event.head_commit.message }}' >> '$GITHUB_OUTPUT'
+
+ build_java:
+   needs: show_context
+   runs-on: ubuntu-latest
+
+   strategy:
+     matrix:
+       java: [11,17]
+
+   steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Java ${{ matrix.java }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ matrix.java }}
+        distribution: microsoft
+
+    - name: Compile
+      run: javac App.java
+
+    - name: Run App.java
+      run: |
+        java App
+        echo 'Triggered by commit: ${{ needs.show_context.outputs.commit_message }}'
+        
