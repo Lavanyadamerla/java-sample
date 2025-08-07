@@ -55,5 +55,5 @@ jobs:
     - name: Run App.java
       run: |
         java App
-        echo 'Triggered by commit: ${{ needs.show_context.outputs.commit_message }}'
+        echo 'Triggered by commit: ${{ needs.outputs.commit_message }}'
         
