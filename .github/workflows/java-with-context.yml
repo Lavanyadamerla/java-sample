@@ -50,7 +50,7 @@ jobs:
         distribution: microsoft
 
     - name: Compile
-      run: javac App.java
+      run: javac App.java TestApp.java
 
     - name: Run App.java
       run: |
@@ -59,8 +59,7 @@ jobs:
         
     - name: Run TestApp
       run: |
-        mvn compile
-        java -cp target/classes:target/test-classes TestApp
+        java TestApp
         
  deploy:
    needs: build_java
