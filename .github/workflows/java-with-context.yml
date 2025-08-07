@@ -57,3 +57,21 @@ jobs:
         java App
         echo 'Triggered by commit: ${{ needs.show_context.outputs.commit_message }}'
         
+    - name: Run TestApp
+      run: |
+        mvn compile
+        java -cp target/classes:target/test-classes TestApp
+        
+ deploy:
+   needs: build_java
+   runs-on: ubuntu-latest
+   steps:
+    - name: Deploy
+      if: success()
+      run: echo 'Deployment successfull'
+
+    
+         
+   
+    
+        
